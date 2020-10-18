@@ -1,0 +1,1 @@
+../contest/train/images/label.txt

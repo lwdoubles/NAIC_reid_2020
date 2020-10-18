@@ -1,0 +1,77 @@
+MODEL:
+  PRETRAIN_CHOICE: 'imagenet'
+  PRETRAIN_PATH: '/home/lwlw/reid/NAIC_Person_ReID_DMT/resnet101_ibn_a.pth'
+  METRIC_LOSS_TYPE: 'triplet_center'
+  IF_LABELSMOOTH: 'on'
+  IF_WITH_CENTER: 'yes'
+  NAME: 'resnet101_ibn_a'
+  DEVICE_ID: ('7')
+  # DEVICE_ID: ('4,5,6,7')
+  ID_LOSS_TYPE: 'arcface'
+  # ID_LOSS_TYPE: ''
+  ID_LOSS_WEIGHT: 0.1
+  TRIPLET_LOSS_WEIGHT: 0.9
+  WEIGHTED_TRIPLET: True
+  NO_MARGIN: True
+
+
+INPUT:
+  # SIZE_TRAIN: [256, 128]
+  # SIZE_TEST: [256,128]
+  SIZE_TRAIN: [280, 140]
+  SIZE_TEST: [280,140]
+  # SIZE_TRAIN: [394, 192]
+  # SIZE_TEST: [394, 192]
+
+  # SIZE_TRAIN: [350, 172]
+  # SIZE_TEST: [350, 172]
+  PROB: 0.5 # random horizontal flip
+  RE_PROB: 0.5 # random erasing
+  PADDING: 10
+  # PIXEL_MEAN: [0.376, 0.376, 0.376]
+  # PIXEL_STD: [0.251, 0.200, 0.207]
+  # RANDOM_PATCH_PROB: 0.3
+
+DATASETS:
+  # NAMES: ('naic')
+  # ROOT_DIR: ('../data')
+  NAMES: ('contest')
+  ROOT_DIR: ('../contest')
+  HARD_AUG: True
+DATALOADER:
+  SAMPLER: 'softmax_triplet'
+  NUM_INSTANCE: 10
+  NUM_WORKERS: 8
+
+SOLVER:
+  OPTIMIZER_NAME: 'Ranger'
+  MAX_EPOCHS: 200
+  BASE_LR: 0.006
+  IMS_PER_BATCH: 100
+  # STEPS: [25, 40]
+  STEPS: [60, 90]
+  GAMMA: 0.1
+  WARMUP_FACTOR: 0.01
+  WARMUP_EPOCHS: 10
+  WARMUP_METHOD: 'linear'
+  LARGE_FC_LR: False
+  CHECKPOINT_PERIOD: 1
+  LOG_PERIOD: 50
+  EVAL_PERIOD: 10000
+  COSINE_MARGIN: 0.4
+  COSINE_SCALE: 30
+  CENTER_LOSS_WEIGHT: 0.0003
+  FP16: False
+
+TEST:
+  IMS_PER_BATCH: 100
+  RE_RANKING: True
+  WEIGHT: './contest_9_5_1/resnet101_ibn_a_72.pth'
+  # WEIGHT: '/home/lwlw/reid/NAIC_Person_ReID_DMT/resnet101_ibn_a.pth'
+  #考虑改成after
+  NECK_FEAT: 'after'
+  FEAT_NORM: 'yes'
+  FLIP_FEATS: 'on'
+OUTPUT_DIR: "./contest_9_8_1/"
+
+
