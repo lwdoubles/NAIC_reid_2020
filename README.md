@@ -7,5 +7,5 @@
 `python train.py --config_file configs/naic_10_9_2.yml`
 ### 测试相应模型并生成json文件：
 `python test.py --config_file configs/naic_10_9_2.yml`
-### 模型融合(可能需要在代码中修改对应路径):
+### 模型融合:
 `python ensemble_dist.py`
